@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle offre d'emploi - TRT Conseils{% endblock %}
+
+{% block content %}
+{% if path(app.request.attributes.get('_route'), 
+    app.request.attributes.get('_route_params'))|slice(24) == 'create' %}
+    <h1>Création offre d'emploi</h1>
+{% else %}
+    <h1>Édition de l'offre d'emploi {{jobOffer.id}}</h1>
+{% endif %}
+    {{ form(form) }}
+{% endblock %}

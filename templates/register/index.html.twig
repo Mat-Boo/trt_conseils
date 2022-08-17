@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - TRT Conseils{% endblock %}
+
+{% block content %}
+    {% if keyPost is not null %}
+        <script>
+            let keyPost = '{{ keyPost }}';
+        </script>
+    {% endif %}
+    <h1 class="mb-5">Inscription</h1>
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        <hr>
+    {% endif %}
+    {% if success %}
+        <div class="alert alert-success">{{ success }}</div>
+        <hr>
+    {% endif %}
+    <div class="w-75 d-flex flex-column align-items-center">
+        <div class="d-flex flex-column align-items-center mb-3 w-50">
+            <p class="m-0">Je m'inscris en tant que :</p>
+            <select name="user_select" id="user_select" class="form-select my-3">
+                <option value="">Sélectionnez une option</option>
+                <option value="candidate">Candidat</option>
+                <option value="recruiter">Recruteur</option>
+            </select>
+            <button type="button" class="btn btn-primary px-5 next_btn">Suivant</button>
+        </div>
+        <hr class="w-75 hrSignup">
+        <div class="formDetails w-75 my-4">
+            {{ form_start(formCandidate, { 'attr' : { 'class': 'signUpForm' } }) }}
+            {{ form_end(formCandidate) }}
+            {{ form_start(formRecruiter, { 'attr' : { 'class': 'signUpForm' } }) }}
+            {{ form_end(formRecruiter) }}
+        </div>
+    </div>
+{% endblock %}

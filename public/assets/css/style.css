@@ -1,0 +1,44 @@
+body {
+    position: relative;
+}
+
+.login_menu {
+    color: white;
+}
+
+.login_menu a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    min-height: calc(100vh - 96px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+footer {
+    background: #343A40;
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+
+footer p {
+    margin: 0;
+}
+
+.home_logo {
+    margin-bottom: 50px;
+}
+
+.signUpForm {
+    display: none;
+}
+
+.hrSignup {
+    display: none;
+}
+

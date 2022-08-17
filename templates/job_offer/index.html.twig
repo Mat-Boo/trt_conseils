@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offres d'emploi - TRT Conseils{% endblock %}
+
+{% block content %}
+<h1>Offres d'emploi</h1>
+<hr>
+{% if jobOffers|length == 0 %}
+    <p class="text-center">
+        Il n'y a aucune offres d'emploi actuellement.
+    </p>
+{% else %}
+    <div class="row">
+        {% for  jobOffer in jobOffers %}
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <div>
+                            <h5 class="card-title">{{ jobOffer.title }}</h5>
+                            <div>
+                                <p class="card-text">{{ jobOffer.salary }}</p>
+                                <p class="card-text">{{ jobOffer.workingHours }}</p>
+                            </div>
+                        </div>
+                        <p class="card-text">{{ jobOffer.place }}</p>
+                        <p class="card-text">{{ jobOffer.description }}</p>
+                        <p>Offre proposée par {{ jobOffer.recruiter.email }}</p>
+                        <a href="{{ path('app_job_offer_apply', {'id' : jobOffer.id}) }}">Postuler</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor  %}
+    </div>
+{% endif %}
+{% endblock %}
