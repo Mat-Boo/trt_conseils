@@ -19,7 +19,7 @@ a:hover {
 }
 
 main {
-    min-height: calc(100vh - 96px);
+    min-height: calc(100vh - 146px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -45,7 +45,7 @@ footer p {
     margin-bottom: 50px;
 }
 
-.signUpForm {
+.formCandidate, .formRecruiter {
     display: none;
 }
 
@@ -63,6 +63,12 @@ footer p {
 }
 
 .cv_btn a, .back_btn {
+    text-decoration: none;
+    color: white;
+}
+
+.add-offer_btn {
+    width: 170px;
     text-decoration: none;
     color: white;
 }

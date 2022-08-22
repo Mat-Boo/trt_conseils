@@ -4,13 +4,13 @@
 
 {% block content %}
 <h1>Offres d'emploi</h1>
-{% if jobOffers|length == 0 %}
+{% if approvedJobOffersNonPostulated|length == 0 %}
     <p class="text-center">
-        Il n'y a aucune offres d'emploi actuellement.
+        Il n'y a, actuellement, aucune offres d'emploi.
     </p>
 {% else %}
     <div class="row w-100">
-        {% for  jobOffer in jobOffers %}
+        {% for  jobOffer in approvedJobOffersNonPostulated %}
             {% if app.user not in jobOffer.candidates %}
                 <div class="col-md-4 p-1">
                     <div class="card w-100 h-100" style="width: 18rem;">
@@ -23,6 +23,7 @@
                             <p class="card-text"><b>Description : </b>{{ jobOffer.description }}</p>
                             <p>Offre proposée par <b>{{ jobOffer.recruiter.company }}</b></p>
                             {% if 'ROLE_CANDIDATE' in app.user.roles %}
+                            <hr>
                                 <div class="d-flex justify-content-end align-items-center">
                                     <a href="{{ path('app_job_offer_apply', {'id' : jobOffer.id}) }}" class="bg-info rounded p-2 text-white">Postuler</a>
                                 </div>

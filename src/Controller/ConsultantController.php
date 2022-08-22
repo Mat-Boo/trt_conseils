@@ -34,4 +34,28 @@ class ConsultantController extends AbstractController
             'nonApprovedRecruiters' => $nonApprovedRecruiters
         ]);
     }
+
+    #[Route('/consultant/offre-emploi/{id}/approuver', name: 'app_consultant_job_offer_approve')]
+    public function approve(int $id): Response
+    {
+        $success = null;
+
+        $jobOffer = $this->entityManager->getRepository(JobOffer::class)->findOneById($id);
+
+        $jobOffer->setIs_approved(true);
+        $this->entityManager->flush();
+        $success = 'L\'offre d\'emploi ' . $id . ' de la société ' . $jobOffer->getRecruiter()->getCompany() . ' a bien été approuvée.';
+
+        return $this->redirectToRoute('app_consultant');
+    }
+
+    #[Route('/consultant/offre-emploi/{id}/refuser', name: 'app_consultant_job_offer_refuse')]
+    public function refuse(): Response
+    {
+        $success = null;
+
+        return $this->render('consultant/index.html.twig', [
+            'success' => $success
+        ]);
+    }
 }

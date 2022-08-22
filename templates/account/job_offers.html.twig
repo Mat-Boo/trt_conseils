@@ -5,37 +5,108 @@
 {% block content %}
 
 <h1>Mes offres d'emploi</h1>
-<a href="{{ path('app_account') }}" class="back_btn bg-dark d-flex align-items-center justify-content-between p-2 mb-5 align-self-start">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-    </svg>
-    Retour
-</a>
-<a href="{{ path('app_account_job_offer_create') }}" class="btn btn-info btn-sm float-right">Ajouter une offre</a>
+<div class="d-flex justify-content-between w-100 flex-wrap align-items-center">
+    <a href="{{ path('app_account') }}" class="back_btn bg-dark d-flex align-items-center justify-content-between p-2 mb-5 rounded">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+        </svg>
+        Retour
+    </a>
+    <a href="{{ path('app_account_job_offer_create') }}" class="add-offer_btn bg-info d-flex align-items-center justify-content-between p-2 mb-5 rounded">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+        </svg>
+        Ajouter une offre
+    </a>
+</div>
 {% if app.user.jobOffers|length == 0 %}
     <p class="text-center">
         Vous n'avez pas encore ajouté d'offres d'emploi sur votre compte. Pour en ajouter une, veuillez <a href="{{ path('app_account_job_offer_create') }}">cliquer ici</a>.
     </p>
 {% else %}
-    <div class="row">
-        {% for  jobOffer in app.user.jobOffers %}
-            <div class="col-md-4">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <div>
-                            <h5 class="card-title">{{ jobOffer.title }}</h5>
-                            <div>
-                                <p class="card-text">{{ jobOffer.salary }}</p>
-                                <p class="card-text">{{ jobOffer.workingHours }}</p>
+    <span class="mb-4 bg-secondary text-light rounded px-2 py-1">Offres en attente de validation par un consultant TRT Conseils</span>
+    {% if nonApprovedJobOffers > 0 %}
+        <div class="row w-100">
+            {% for  jobOffer in app.user.jobOffers %}
+                {% if jobOffer.is_approved == 0 %}
+                    <div class="col-md-4 p-1">
+                        <div class="card w-100 h-100" style="width: 18rem;">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">{{ jobOffer.title }}</h5>
+                                <p class="card-text bg-secondary text-white p-2 m-0 rounded">{{ jobOffer.workingHours }} | {{ jobOffer.salary|number_format(2, ',', '.') }} €</p>
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <p class="card-text"><b>Lieu : </b>{{ jobOffer.place }}</p>
+                                <p class="card-text"><b>Description : </b>{{ jobOffer.description }}</p>
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ path('app_account_job_offer_delete', {'id' : jobOffer.id}) }}" class="bg-danger rounded p-2 text-white">Supprimer</a>
+                                    <a href="{{ path('app_account_job_offer_edit', {'id' : jobOffer.id}) }}" class="bg-info rounded p-2 text-white">Modifier</a>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <h6>Candidats ayant postulés à cette offre :</h6>
+                                {% if jobOffer.candidates|length == 0 %}
+                                    <p>Aucun candidat n'a postulé à cette offre</p>
+                                {% endif %}
+                                <ul>
+                                    {% for candidate in jobOffer.candidates %}
+                                        <li class="d-flex justify-content-between align-items-center">
+                                            <span>{{ candidate.firstname }} {{ candidate.lastname }}</span>
+                                            <a href="../uploads/{{ candidate.cv }}" class="text-light bg-secondary px-3 py-1 rounded">Cv</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
                             </div>
                         </div>
-                        <p class="card-text">{{ jobOffer.place }}</p>
-                        <p class="card-text">{{ jobOffer.description }}</p>
-                        <a href="{{ path('app_account_job_offer_edit', {'id' : jobOffer.id}) }}">Modifier</a> | <a href="{{ path('app_account_job_offer_delete', {'id' : jobOffer.id}) }}">Supprimer</a>
                     </div>
-                </div>
-            </div>
-        {% endfor  %}
+                {% endif %}
+            {% endfor  %}
+        </div>
+    {% else %}
+        <p>Toutes vos offres d'emploi ont été approuvées par TRT Conseils, vous pouvez les retrouver ci-dessous.</p>
+    {% endif %}
+    <hr class="w-100 my-5">
+    <span class="mb-4 bg-success text-light rounded px-2 py-1">Offres approuvées par un consultant TRT Conseils</span>
+    {% if approvedJobOffers > 0 %}
+        <div class="row w-100">
+            {% for  jobOffer in app.user.jobOffers %}
+                {% if jobOffer.is_approved == 1 %}
+                    <div class="col-md-4 p-1">
+                        <div class="card w-100 h-100" style="width: 18rem;">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">{{ jobOffer.title }}</h5>
+                                <p class="card-text bg-secondary text-white p-2 m-0 rounded">{{ jobOffer.workingHours }} | {{ jobOffer.salary|number_format(2, ',', '.') }} €</p>
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <p class="card-text"><b>Lieu : </b>{{ jobOffer.place }}</p>
+                                <p class="card-text"><b>Description : </b>{{ jobOffer.description }}</p>
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ path('app_account_job_offer_delete', {'id' : jobOffer.id}) }}" class="bg-danger rounded p-2 text-white">Supprimer</a>
+                                    <a href="{{ path('app_account_job_offer_edit', {'id' : jobOffer.id}) }}" class="bg-info rounded p-2 text-white">Modifier</a>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <h6>Candidats ayant postulés à cette offre :</h6>
+                                {% if jobOffer.candidates|length == 0 %}
+                                    <p>Aucun candidat n'a postulé à cette offre</p>
+                                {% endif %}
+                                <ul>
+                                    {% for candidate in jobOffer.candidates %}
+                                        <li class="d-flex justify-content-between align-items-center">
+                                            <span>{{ candidate.firstname }} {{ candidate.lastname }}</span>
+                                            <a href="../uploads/{{ candidate.cv }}" class="text-light bg-secondary px-3 py-1 rounded">Cv</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor  %}
+        </div>
+    {% else %}
+        <p>Aucune de vos offres n'a été approuvée par TRT Conseils pour le moment.</p>
+    {% endif %}
     </div>
 {% endif %}
 {% endblock %}

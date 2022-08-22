@@ -50,6 +50,17 @@ class JobOfferRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Permet d'afficher les offres d'emploi approuvées par un consultant
+     */
+    public function findApprovedJobOffers()
+    {
+        return $this->createQuerybuilder('j')
+            ->andWhere('j.is_approved = 1')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return JobOffer[] Returns an array of JobOffer objects
 //     */

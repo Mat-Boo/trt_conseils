@@ -22,7 +22,24 @@ class AccountJobOffersController extends AbstractController
     #[Route('/compte/mes-offres-emploi', name: 'app_account_job_offers')]
     public function index(): Response
     {
-        return $this->render('account/job_offers.html.twig');
+        $approvedJobOffers = 0;
+        $nonApprovedJobOffers = 0;
+
+        $jobOffers = $this->entityManager->getRepository(JobOffer::class)->findAll();
+        foreach($jobOffers as $jobOffer) {
+            if ($jobOffer->getRecruiter() === $this->getUser()) {
+                if ($jobOffer->isIs_approved() === false) {
+                    $nonApprovedJobOffers++;
+                } elseif ($jobOffer->isIs_approved() === true) {
+                    $approvedJobOffers++;
+                }
+            }
+        }
+
+        return $this->render('account/job_offers.html.twig', [
+            'approvedJobOffers' => $approvedJobOffers,
+            'nonApprovedJobOffers' => $nonApprovedJobOffers
+        ]);
     }
 
     #[Route('/compte/offre-emploi/creer', name: 'app_account_job_offer_create')]
@@ -33,7 +50,7 @@ class AccountJobOffersController extends AbstractController
         $form = $this->createForm(JobOfferType::class, $jobOffer);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $jobOffer->setRecruiter(($this->getUser()));
+            $jobOffer->setRecruiter($this->getUser());
             $this->entityManager->persist($jobOffer);
             $this->entityManager->flush();
             return $this->redirectToRoute('app_account_job_offers');

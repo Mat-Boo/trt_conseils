@@ -22,20 +22,19 @@ class JobOfferController extends AbstractController
     #[Route('/offres-emploi', name: 'app_job_offers')]
     public function index(): Response
     {
-        $jobOffers = $this->entityManager->getRepository(JobOffer::class)->findAll();
+        $approvedJobOffersNonPostulated = [];
+        
+        $approvedJobOffers = $this->entityManager->getRepository(JobOffer::class)->findApprovedJobOffers();
+        foreach($approvedJobOffers as $jobOffer) {
+            if (!$jobOffer->getCandidates()->contains($this->getUser()) && $jobOffer->isIs_approved() === true) {
+                    $approvedJobOffersNonPostulated[] = $jobOffer;
+            }
+        }
 
         return $this->render('job_offer/index.html.twig', [
-            'jobOffers' => $jobOffers
+            'approvedJobOffersNonPostulated' => $approvedJobOffersNonPostulated
         ]);
-    }
-
-    #[Route('/recruteur/mes-offres-emploi', name: 'app_my_job_offers')]
-    public function myOffers(): Response
-    {
-        return $this->render('job_offer/myOffers.html.twig');
-    }
-
-    
+    }    
 
     #[Route('/candidat/offre-emploi/{id}/postuler', name: 'app_job_offer_apply')]
     public function applyFor(int $id): Response

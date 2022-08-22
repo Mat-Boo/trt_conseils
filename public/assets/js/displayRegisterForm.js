@@ -1,24 +1,24 @@
 let userSelect = document.querySelector('#user_select');
 let nextBtn = document.querySelector('.next_btn');
-let formCandidate = document.getElementsByName('register_candidate');
-let formRecruiter = document.getElementsByName('register_recruiter');
+let formCandidate = document.querySelector('.formCandidate');
+let formRecruiter = document.querySelector('.formRecruiter');
 let hrSignup = document.querySelector('.hrSignup');
 
 nextBtn.addEventListener('click', () => {
     if (userSelect.value === 'candidate') {
         hrSignup.style.display = 'block'
-        formCandidate[0].style.display = 'block';
-        formRecruiter[0].style.display = 'none';
+        formCandidate.style.display = 'block';
+        formRecruiter.style.display = 'none';
     }
     if (userSelect.value === 'recruiter') {
         hrSignup.style.display = 'block'
-        formRecruiter[0].style.display = 'block';
-        formCandidate[0].style.display = 'none';
+        formRecruiter.style.display = 'block';
+        formCandidate.style.display = 'none';
     }
     if (userSelect.value === '') {
         hrSignup.style.display = 'none'
-        formRecruiter[0].style.display = 'none';
-        formCandidate[0].style.display = 'none';
+        formRecruiter.style.display = 'none';
+        formCandidate.style.display = 'none';
     }
 })
 

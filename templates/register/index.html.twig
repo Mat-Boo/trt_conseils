@@ -3,7 +3,7 @@
 {% block title %}Inscription - TRT Conseils{% endblock %}
 
 {% block content %}
-    {% if keyPost is not null %}
+    {% if keyPost is defined %}
         <script>
             let keyPost = '{{ keyPost }}';
         </script>
@@ -25,13 +25,33 @@
                 <option value="candidate">Candidat</option>
                 <option value="recruiter">Recruteur</option>
             </select>
-            <button type="button" class="btn btn-primary px-5 next_btn">Suivant</button>
+            <button type="button" class="btn btn-info px-5 next_btn">Suivant</button>
         </div>
         <hr class="w-75 hrSignup">
-        <div class="formDetails w-75 my-4">
-            {{ form_start(formCandidate, { 'attr' : { 'class': 'signUpForm' } }) }}
+        <div class="formCandidate">
+            {{ form_start(formCandidate, { 'attr' : { 'class': 'd-flex flex-column align-items-center' } }) }}
+                <div class="row w-75 my-4">
+                    <div class="col-md-12">{{form_row(formCandidate.email)}}</div>
+                    <div class="col-md-6">{{form_row(formCandidate.password.first)}}</div>
+                    <div class="col-md-6">{{form_row(formCandidate.password.second)}}</div>
+                    <div class="col-md-6">{{form_row(formCandidate.firstname)}}</div>
+                    <div class="col-md-6">{{form_row(formCandidate.lastname)}}</div>
+                    <div class="col-md-12">{{form_row(formCandidate.job)}}</div>
+                    <div class="col-md-12">{{form_row(formCandidate.cv)}}</div>
+                    <div class="col-md-12 text-center">{{form_row(formCandidate.submit, {'attr': {'class': 'btn btn-info w-25'}})}}</div>
+                </div>
             {{ form_end(formCandidate) }}
-            {{ form_start(formRecruiter, { 'attr' : { 'class': 'signUpForm' } }) }}
+        </div>
+        <div class="formRecruiter">
+            {{ form_start(formRecruiter, { 'attr' : { 'class': 'd-flex flex-column align-items-center' } }) }}
+                <div class="row w-75 my-4">
+                    <div class="col-md-12">{{form_row(formRecruiter.email)}}</div>
+                    <div class="col-md-6">{{form_row(formRecruiter.password.first)}}</div>
+                    <div class="col-md-6">{{form_row(formRecruiter.password.second)}}</div>
+                    <div class="col-md-12">{{form_row(formRecruiter.company)}}</div>
+                    <div class="col-md-12">{{form_row(formRecruiter.address)}}</div>
+                    <div class="col-md-12 text-center">{{form_row(formRecruiter.submit, {'attr': {'class': 'btn btn-info w-25'}})}}</div>
+                </div>
             {{ form_end(formRecruiter) }}
         </div>
     </div>

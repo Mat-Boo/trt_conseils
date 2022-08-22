@@ -23,5 +23,14 @@
         </svg>
         Retour
     </a>
-    {{ form(form) }}
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-12">{{ form_row(form.title) }}</div>
+            <div class="col-md-6">{{ form_row(form.place) }}</div>
+            <div class="col-md-12">{{ form_row(form.description) }}</div>
+            <div class="col-md-6">{{ form_row(form.salary) }}</div>
+            <div class="col-md-6">{{ form_row(form.working_hours) }}</div>
+            <div class="col-md-12 text-center">{{ form_row(form.submit, {'attr': {'class': 'btn btn-info submit_btn'}}) }}</div>
+        </div>
+    {{ form_end(form) }}
 {% endblock %}

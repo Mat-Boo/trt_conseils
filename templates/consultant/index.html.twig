@@ -4,7 +4,9 @@
 
 {% block content %}
 <h1>Bienvenue sur l'espace Consultant</h1>
-
+{% if success is defined %}
+    <p class="alert alert-success">{{ success }}</p>
+{% endif %}
 <div class="w-100 rounded p-5 bg-light">
     <h4 class="align-self-start mb-3">Offres d'emploi en attente d'approbation</h4>
     {% if nonApprovedJobOffers|length == 0 %}
@@ -26,8 +28,8 @@
                             <p>Offre proposée par <b>{{ jobOffer.recruiter.company }}</b></p>
                             <hr>
                             <div class="d-flex justify-content-between align-items-center">
-                                <a href="{{ path('app_job_offer_apply', {'id' : jobOffer.id}) }}" class="bg-danger rounded p-2 text-white">Refuser</a>
-                                <a href="{{ path('app_job_offer_apply', {'id' : jobOffer.id}) }}" class="bg-success rounded p-2 text-white">Approuver</a>
+                                <a href="{{ path('app_consultant_job_offer_refuse', {'id' : jobOffer.id}) }}" class="bg-danger rounded p-2 text-white">Refuser</a>
+                                <a href="{{ path('app_consultant_job_offer_approve', {'id' : jobOffer.id}) }}" class="bg-success rounded p-2 text-white">Approuver</a>
                             </div>
                         </div>
                     </div>
@@ -55,8 +57,8 @@
                             <p><a href="../uploads/{{user.cv}}" class="bg-secondary p-2 rounded text-white">Voir le CV</a></p>
                             <hr>
                             <div class="d-flex justify-content-between align-items-center">
-                                <a href="{{ path('app_job_offer_apply', {'id' : user.id}) }}" class="bg-danger rounded p-2 text-white">Refuser</a>
-                                <a href="{{ path('app_job_offer_apply', {'id' : user.id}) }}" class="bg-success rounded p-2 text-white">Approuver</a>
+                                <a href="{{ path('app_consultant_job_offer_refuse', {'id' : user.id}) }}" class="bg-danger rounded p-2 text-white">Refuser</a>
+                                <a href="{{ path('app_consultant_job_offer_approve', {'id' : user.id}) }}" class="bg-success rounded p-2 text-white">Approuver</a>
                             </div>
                         </div>
                     </div>
@@ -83,8 +85,8 @@
                             <p class="card-text"><b>Adresse : </b>{{ user.address }}</p>
                             <hr>
                             <div class="d-flex justify-content-between align-items-center">
-                                <a href="{{ path('app_job_offer_apply', {'id' : user.id}) }}" class="bg-danger rounded p-2 text-white">Refuser</a>
-                                <a href="{{ path('app_job_offer_apply', {'id' : user.id}) }}" class="bg-success rounded p-2 text-white">Approuver</a>
+                                <a href="{{ path('app_consultant_job_offer_refuse', {'id' : user.id}) }}" class="bg-danger rounded p-2 text-white">Refuser</a>
+                                <a href="{{ path('app_consultant_job_offer_approve', {'id' : user.id}) }}" class="bg-success rounded p-2 text-white">Approuver</a>
                             </div>
                         </div>
                     </div>
