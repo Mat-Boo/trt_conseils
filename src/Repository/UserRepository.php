@@ -56,6 +56,31 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
+    /**
+     * Permet d'afficher les consultants dans l'espace admin
+     */
+    public function findUsersByRole($role)
+    {
+        return $this->createQuerybuilder('u')
+            ->andWhere('u.roles LIKE :roles')
+            ->setParameter('roles', '%"'.$role.'"%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Permet d'afficher les candidats ou recruteurs en attente de validation par un consultant
+     */
+    public function findNonApprovedUsersByRole($role)
+    {
+        return $this->createQuerybuilder('u')
+            ->andWhere('u.is_approved = 0')
+            ->andWhere('u.roles LIKE :roles')
+            ->setParameter('roles', '%"'.$role.'"%')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

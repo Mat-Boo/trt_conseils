@@ -2,6 +2,13 @@ body {
     position: relative;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: white;
+}
 .login_menu {
     color: white;
 }
@@ -17,6 +24,10 @@ main {
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
+}
+
+main h1 {
+    margin-bottom: 50px;
 }
 
 footer {
@@ -42,3 +53,31 @@ footer p {
     display: none;
 }
 
+.delete_cv {
+    cursor: pointer;
+}
+
+.cv_btn, .back_btn {
+    width: 110px;
+    border-radius: 5px;
+}
+
+.cv_btn a, .back_btn {
+    text-decoration: none;
+    color: white;
+}
+
+ul {
+    list-style: none;
+}
+
+.account-item {
+    background-color: #e5e8eb;
+    padding: 30px;
+    width: 250px;
+}
+
+.infos-list {
+    background-color: #e5e8eb;
+    padding: 30px;
+}

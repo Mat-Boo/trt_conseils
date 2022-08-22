@@ -39,11 +39,19 @@ class RegisterController extends AbstractController
             $user = $formCanditate->getData();
             $search_email =$this->entityManager->getRepository(User::class)->findOneByEmail($user->getEmail());
             if (!$search_email) {
+                //Ajout du rôle ROLE_CANDIDATE
                 $user->setRoles(['ROLE_CANDIDATE']);
 
+                //Hashage du mot de passe                
                 $password = $hasher->hashPassword($user, $user->getPassword());
                 $user->setPassword($password);
                 
+                //Déplacement du CV uploadé dans le dossier public/uploads
+                $cv = $formCanditate->get('cv')->getData();
+                $newCvName = md5(uniqid()) . '.pdf';
+                $cv->move($this->getParameter('files_directory'), $newCvName); //file_directory paramétré dans le fichier config/services.yaml
+                $user->setCv($newCvName);
+
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
                 
@@ -59,9 +67,10 @@ class RegisterController extends AbstractController
             $user = $formRecruiter->getData();
             $search_email =$this->entityManager->getRepository(User::class)->findOneByEmail($user->getEmail());
             if (!$search_email) {
-                
+                //Ajout du rôle ROLE_RECRUITER
                 $user->setRoles(['ROLE_RECRUITER']);
 
+                //Hashage du mot de passe
                 $password = $hasher->hashPassword($user, $user->getPassword());
                 $user->setPassword($password);
 

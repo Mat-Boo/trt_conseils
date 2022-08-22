@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{type}} - TRT Conseils{% endblock %}
+
+{% block content %}
+
+<h1>Gestion des {{type}}s</h1>
+{% if users|length == 0 %}
+    <p class="text-center">
+        Il n'existe aucun {{type}}.
+    </p>
+{% else %}
+    <div class="row">
+        {% for  user in users %}
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ user.email }}</h5>
+                        {% if type == 'candidat' %}
+                        <p class="card-text">{{ user.firstname }}</p>
+                        <p class="card-text">{{ user.lastname }}</p>
+                        {% elseif type == 'recruteur' %}
+                            <p class="card-text">{{ user.company }}</p>
+                            <p class="card-text">{{ user.address }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor  %}
+    </div>
+{% endif %}
+{% endblock %}

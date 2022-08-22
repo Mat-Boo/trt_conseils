@@ -39,6 +39,17 @@ class JobOfferRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Permet d'afficher les offres d'emploi en attente de validation par un consultant
+     */
+    public function findNonApprovedJobOffers()
+    {
+        return $this->createQuerybuilder('j')
+            ->andWhere('j.is_approved = 0')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return JobOffer[] Returns an array of JobOffer objects
 //     */

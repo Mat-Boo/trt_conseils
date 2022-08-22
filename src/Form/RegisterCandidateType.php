@@ -6,7 +6,6 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -31,8 +30,9 @@ class RegisterCandidateType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Veuillez saisir votre email'
                 ]
-            ])
-            ->add('password', RepeatedType::class, [
+                ]);
+        if (substr($_SERVER['REQUEST_URI'], 0, 12) === '/inscription') {
+            $builder->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identiques',
                 'label' => 'Votre mot de passe',
@@ -49,8 +49,9 @@ class RegisterCandidateType extends AbstractType
                         'placeholder' => 'Veuillez confirmer votre mot de passe'
                     ]
                 ]
-            ])
-            ->add('firstname', TextType::class, [
+            ]);
+        }
+        $builder->add('firstname', TextType::class, [
                 'label' => 'Votre Prénom',
                 'required' => true,
                 'constraints' => new Length([
@@ -82,9 +83,11 @@ class RegisterCandidateType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Veuillez saisir votre emploi'
                 ]
-            ])
-            ->add('cv', FileType::class, [
-                'label' => 'Veuillez nous transmettre votre CV au format PDF exclusivement',
+                ]);
+        /* if (substr($_SERVER['REQUEST_URI'], 0, 12) === '/inscription') { */
+            $builder->add('cv', FileType::class, [
+                'label' => 'Votre CV au format PDF exclusivement',
+                'data_class' => null,
                 'constraints' => [
                     new File([
                         'maxSize' => '5120k',
@@ -95,9 +98,10 @@ class RegisterCandidateType extends AbstractType
                         'mimeTypesMessage' => 'Seul le format PDF est accepté.',
                     ])
                 ],
-            ])
-            ->add('submit', SubmitType::class, [
-                'label' => 'Créer mon compte'
+            ]);
+        /* } */
+        $builder->add('submit', SubmitType::class, [
+                'label' => 'Valider'
             ])
         ;
     }

@@ -46,7 +46,21 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('app_account'));
+        $user = $token->getUser();
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            return new RedirectResponse($this->urlGenerator->generate('app_admin'));
+        }
+        if (in_array('ROLE_CONSULTANT', $user->getRoles())) {
+            return new RedirectResponse($this->urlGenerator->generate('app_consultant'));
+        }
+        if (in_array('ROLE_CANDIDATE', $user->getRoles())) {
+            return new RedirectResponse($this->urlGenerator->generate('app_candidate'));
+        }
+        if (in_array('ROLE_RECRUITER', $user->getRoles())) {
+            return new RedirectResponse($this->urlGenerator->generate('app_recruiter'));
+        }
+
+        return new RedirectResponse($this->urlGenerator->generate('app_home'));
     }
 
     protected function getLoginUrl(Request $request): string

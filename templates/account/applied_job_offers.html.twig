@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offres d'emploi postulées - TRT Conseils{% endblock %}
+
+{% block content %}
+
+<h1>Offres d'emploi postulées</h1>
+<a href="{{ path('app_account') }}" class="back_btn bg-dark d-flex align-items-center justify-content-between p-2 mb-5 align-self-start">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+    </svg>
+    Retour
+</a>
+{% if app.user.jobOffersAppliedFor|length == 0 %}
+    <p class="text-center">
+        Il n'y a aucune offres d'emploi actuellement.
+    </p>
+{% else %}
+    <div class="row w-100">
+        {% for  jobOffer in app.user.jobOffersAppliedFor %}
+            <div class="col-md-4 p-1">
+                <div class="card w-100 h-100" style="width: 18rem;">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">{{ jobOffer.title }}</h5>
+                        <p class="card-text bg-secondary text-white p-2 m-0 rounded">{{ jobOffer.workingHours }} | {{ jobOffer.salary|number_format(2, ',', '.') }} €</p>
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <p class="card-text"><b>Lieu : </b>{{ jobOffer.place }}</p>
+                        <p class="card-text"><b>Description : </b>{{ jobOffer.description }}</p>
+                        <p>Offre proposée par <b>{{ jobOffer.recruiter.company }}</b></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor  %}
+    </div>
+{% endif %}
+{% endblock %}

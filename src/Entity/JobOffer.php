@@ -36,7 +36,7 @@ class JobOffer
     private ?User $recruiter = null;
 
     #[ORM\Column]
-    private ?bool $isApproved = false;
+    private ?bool $is_approved = false;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'jobOffersAppliedFor')]
     private Collection $candidates;
@@ -123,14 +123,14 @@ class JobOffer
         return $this;
     }
 
-    public function isIsApproved(): ?bool
+    public function isIs_approved(): ?bool
     {
-        return $this->isApproved;
+        return $this->is_approved;
     }
 
-    public function setIsApproved(bool $isApproved): self
+    public function setIs_approved(bool $is_approved): self
     {
-        $this->isApproved = $isApproved;
+        $this->is_approved = $is_approved;
 
         return $this;
     }

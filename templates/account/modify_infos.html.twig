@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes informations - TRT Conseils{% endblock %}
+
+{% block content %}
+    <h1>Mes informations personnelles</h1>
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        <hr>
+    {% endif %}
+    {% if success %}
+        <div class="alert alert-success">{{ success }}</div>
+        <hr>
+    {% endif %}
+    <a href="{{ path('app_account_infos') }}" class="back_btn bg-dark d-flex align-items-center justify-content-between p-2 mb-5 align-self-start">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+        </svg>
+        Annuler
+    </a>
+    {% if 'ROLE_CANDIDATE' in app.user.roles %}
+        {{ form_start(formCandidate)}}
+        <div class="row">
+            <div class="col-md-12">{{ form_row(formCandidate.email) }}</div>
+            <div class="col-md-6">{{ form_row(formCandidate.firstname) }}</div>
+            <div class="col-md-6">{{ form_row(formCandidate.lastname) }}</div>
+            <div class="col-md-12">{{ form_row(formCandidate.job) }}</div>
+            <div class="col-md-2">
+                <div class="cv_btn bg-secondary d-flex align-items-center justify-content-between p-2 mx-auto">
+                    <a href="../../uploads/{{ app.user.cv }}">Mon cv</a>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="delete_cv" viewBox="0 0 16 16">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="col-md-9 my-auto text-danger alert_cv_mess"><small><i>Vous pouvez visualiser votre CV ou le supprimer, (Attention, il faudra impérativement en ajouter un autre)</i></small></div>
+            <div class="col-md-12 add_cv d-none">{{ form_row(formCandidate.cv, {'required': false}) }}</div>
+            <div class="col-md-12 mt-5 text-center">{{ form_row(formCandidate.submit, {'attr': {'class': 'btn btn-info w-25 submit_btn'}}) }}</div>
+        </div>
+        {{ form_end(formCandidate) }}
+    {% elseif 'ROLE_RECRUITER' in app.user.roles %}
+        {{ form_start(formRecruiter)}}
+            <div class="row">
+                <div class="col-md-12">{{ form_row(formRecruiter.email) }}</div>
+                <div class="col-md-6">{{ form_row(formRecruiter.company) }}</div>
+                <div class="col-md-6">{{ form_row(formRecruiter.address) }}</div>
+                <div class="col-md-12 mt-5 text-center">{{ form_row(formRecruiter.submit, {'attr': {'class': 'btn btn-info w-25 submit_btn'}}) }}</div>
+            </div>
+        {{ form_end(formRecruiter)}}
+    {% endif %}
+    {% endblock %}
+{% block script %}
+    <script src="{{ asset('assets/js/displayCvForm.js') }}"></script>
+{% endblock %}

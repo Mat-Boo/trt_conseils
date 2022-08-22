@@ -3,12 +3,18 @@
 {% block title %}Mes offres d'emploi - TRT Conseils{% endblock %}
 
 {% block content %}
-<a href="{{ path('app_job_offer_create') }}" class="btn btn-info btn-sm float-right">Ajouter une offre</a>
+
 <h1>Mes offres d'emploi</h1>
-<hr>
+<a href="{{ path('app_account') }}" class="back_btn bg-dark d-flex align-items-center justify-content-between p-2 mb-5 align-self-start">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+    </svg>
+    Retour
+</a>
+<a href="{{ path('app_account_job_offer_create') }}" class="btn btn-info btn-sm float-right">Ajouter une offre</a>
 {% if app.user.jobOffers|length == 0 %}
     <p class="text-center">
-        Vous n'avez pas encore ajouté d'offres d'emploi sur votre compte. Pour en ajouter une, veuillez <a href="{{ path('app_job_offer_create') }}">cliquer ici</a>.
+        Vous n'avez pas encore ajouté d'offres d'emploi sur votre compte. Pour en ajouter une, veuillez <a href="{{ path('app_account_job_offer_create') }}">cliquer ici</a>.
     </p>
 {% else %}
     <div class="row">
@@ -25,7 +31,7 @@
                         </div>
                         <p class="card-text">{{ jobOffer.place }}</p>
                         <p class="card-text">{{ jobOffer.description }}</p>
-                        <a href="{{ path('app_job_offer_edit', {'id' : jobOffer.id}) }}">Modifier</a> | <a href="{{ path('app_job_offer_delete', {'id' : jobOffer.id}) }}">Supprimer</a>
+                        <a href="{{ path('app_account_job_offer_edit', {'id' : jobOffer.id}) }}">Modifier</a> | <a href="{{ path('app_account_job_offer_delete', {'id' : jobOffer.id}) }}">Supprimer</a>
                     </div>
                 </div>
             </div>

@@ -50,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $address = null;
 
     #[ORM\Column]
-    private ?bool $isApproved = false;
+    private ?bool $is_approved = false;
 
     #[ORM\OneToMany(mappedBy: 'recruiter', targetEntity: JobOffer::class)]
     private Collection $jobOffers;
@@ -206,14 +206,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isIsApproved(): ?bool
+    public function isIs_approved(): ?bool
     {
-        return $this->isApproved;
+        return $this->is_approved;
     }
 
-    public function setIsApproved(bool $isApproved): self
+    public function setIs_approved(bool $is_approved): self
     {
-        $this->isApproved = $isApproved;
+        $this->is_approved = $is_approved;
 
         return $this;
     }

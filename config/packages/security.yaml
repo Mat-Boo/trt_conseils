@@ -31,10 +31,14 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/mon-compte, roles: ROLE_USER }
          - { path: ^/candidat, roles: ROLE_CANDIDATE }
          - { path: ^/recruteur, roles: ROLE_RECRUITER }
+         - { path: ^/compte/offres-emploi-postulees, roles: ROLE_CANDIDATE }
+         - { path: ^/compte/mes-offres-emploi, roles: ROLE_RECRUITER }
+         - { path: ^/compte/offre-emploi/, roles: ROLE_RECRUITER }
+         - { path: ^/consultant, roles: ROLE_CONSULTANT }
 
 when@test:
     security:

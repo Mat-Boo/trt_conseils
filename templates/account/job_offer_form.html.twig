@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{% if path(app.request.attributes.get('_route'), 
+    app.request.attributes.get('_route_params'))|slice(21) == 'creer' %}
+    Nouvelle offre d'emploi
+{% else %}
+    Édition de l'offre d'emploi {{jobOffer.id}}
+{% endif %}
+     - TRT Conseils
+{% endblock %}
+
+{% block content %}
+{% if path(app.request.attributes.get('_route'), 
+    app.request.attributes.get('_route_params'))|slice(21) == 'creer' %}
+    <h1>Création offre d'emploi</h1>
+{% else %}
+    <h1>Édition de l'offre d'emploi {{jobOffer.id}}</h1>
+{% endif %}
+    <a href="{{ path('app_account_job_offers') }}" class="back_btn bg-dark d-flex align-items-center justify-content-between p-2 mb-5 align-self-start">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+        </svg>
+        Retour
+    </a>
+    {{ form(form) }}
+{% endblock %}

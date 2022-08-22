@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - TRT Conseils{% endblock %}
+
+{% block content %}
+    <img src="{{ asset('assets/img/logo.png') }}" alt="logo" class="home_logo">
+    <h1>Bienvenue sur l'espace d'administration</h1>
+    <ul>
+        <li><a href="{{ path('app_admin_consultant') }}">Gestion des consultants</a></li>
+        <li><a href="">Gestion des candidats</a></li>
+        <li><a href="">Gestion des recruteurs</a></li>
+        <li><a href="">Gestion des offres d'emploi</a></li>
+    </ul>
+{% endblock %}
