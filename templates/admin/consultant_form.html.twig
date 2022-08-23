@@ -31,5 +31,14 @@
         </svg>
         Annuler
     </a>
-    {{ form(form) }}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-12">{{ form_row(form.email)}}</div>
+        <div class="col-md-6">{{ form_row(form.password.first)}}</div>
+        <div class="col-md-6">{{ form_row(form.password.second)}}</div>
+        <div class="col-md-6">{{ form_row(form.firstname)}}</div>
+        <div class="col-md-6">{{ form_row(form.lastname)}}</div>
+        <div class="col-md-12 text-center">{{ form_row(form.submit, {'attr': {'class': 'btn btn-info w-25'}})}}</div>    
+    </div>
+    {{ form_end(form) }}
 {% endblock %}

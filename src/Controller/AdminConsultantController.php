@@ -45,6 +45,9 @@ class AdminConsultantController extends AbstractController
                 //Ajout du rôle ROLE_CONSULTANT
                 $consultant->setRoles(['ROLE_CONSULTANT']);
 
+                //Activation du comptej
+                $consultant->setIs_approved(true);
+
                 //Hashage du mot de passe                
                 $password = $hasher->hashPassword($consultant, $consultant->getPassword());
                 $consultant->setPassword($password);
@@ -108,10 +111,15 @@ class AdminConsultantController extends AbstractController
     #[Route('/admin/consultant/{id}/supprimer', name: 'app_admin_consultant_delete')]
     public function delete(int $id): Response
     {
+        $error = $success = null;
+
         $consultant = $this->entityManager->getRepository(User::class)->findOneById($id);
         if ($consultant) {
             $this->entityManager->remove($consultant);
             $this->entityManager->flush();
+            $success = "Le consultant $id a bien été supprimé.";
+        } else {
+            $error = "Le consultant $id n'a pu être supprimé.";
         }
 
         return $this->redirectToRoute('app_admin_consultant');

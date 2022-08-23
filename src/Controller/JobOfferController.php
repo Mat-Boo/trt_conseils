@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Candidature;
 use App\Entity\JobOffer;
 use App\Form\JobOfferType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,14 +24,22 @@ class JobOfferController extends AbstractController
     public function index(): Response
     {
         $approvedJobOffersNonPostulated = [];
-        
+
         $approvedJobOffers = $this->entityManager->getRepository(JobOffer::class)->findApprovedJobOffers();
+        
         foreach($approvedJobOffers as $jobOffer) {
-            if (!$jobOffer->getCandidates()->contains($this->getUser()) && $jobOffer->isIs_approved() === true) {
+            $candidatesPerJob = [];
+            if (!$jobOffer->getCandidatures()->isEmpty()) {
+                foreach ($jobOffer->getCandidatures() as $candidature) {
+                    $candidatesPerJob[] = $candidature->getCandidate();
+                }
+                if (!in_array($this->getUser(), $candidatesPerJob)) {
                     $approvedJobOffersNonPostulated[] = $jobOffer;
+                }
+            } else {
+                $approvedJobOffersNonPostulated[] = $jobOffer;
             }
         }
-
         return $this->render('job_offer/index.html.twig', [
             'approvedJobOffersNonPostulated' => $approvedJobOffersNonPostulated
         ]);
@@ -39,9 +48,12 @@ class JobOfferController extends AbstractController
     #[Route('/candidat/offre-emploi/{id}/postuler', name: 'app_job_offer_apply')]
     public function applyFor(int $id): Response
     {
+        $candidature = new Candidature();
         $jobOffer = $this->entityManager->getRepository(JobOffer::class)->findOneById($id);
         if ($jobOffer && $this->getUser()) {
-            $jobOffer->addCandidate(($this->getUser()));
+            $candidature->setCandidate($this->getUser());
+            $candidature->setJobOffer($jobOffer);
+            $this->entityManager->persist($candidature);
             $this->entityManager->flush();
         }
         return $this->redirectToRoute('app_job_offers');

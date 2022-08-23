@@ -11,13 +11,39 @@
     </svg>
     Retour
 </a>
-{% if app.user.jobOffersAppliedFor|length == 0 %}
+<span class="mb-4 bg-secondary text-light rounded px-2 py-1">Candidatures en attente de validation par un consultant TRT Conseils</span>
+{% if postulatedNonApprovedJobOffers|length == 0 %}
     <p class="text-center">
-        Il n'y a aucune offres d'emploi actuellement.
+        Il n'y a aucune candidature non validée.
     </p>
 {% else %}
     <div class="row w-100">
-        {% for  jobOffer in app.user.jobOffersAppliedFor %}
+        {% for  jobOffer in postulatedNonApprovedJobOffers %}
+            <div class="col-md-4 p-1">
+                <div class="card w-100 h-100" style="width: 18rem;">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">{{ jobOffer.title }}</h5>
+                        <p class="card-text bg-secondary text-white p-2 m-0 rounded">{{ jobOffer.workingHours }} | {{ jobOffer.salary|number_format(2, ',', '.') }} €</p>
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <p class="card-text"><b>Lieu : </b>{{ jobOffer.place }}</p>
+                        <p class="card-text"><b>Description : </b>{{ jobOffer.description }}</p>
+                        <p>Offre proposée par <b>{{ jobOffer.recruiter.company }}</b></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor  %}
+    </div>
+{% endif %}
+<hr class="w-100 my-5">
+<span class="mb-4 bg-success text-light rounded px-2 py-1">Candidatures validées par un consultant TRT Conseils</span>
+{% if appliedJobOffers|length == 0 %}
+    <p class="text-center">
+        Il n'y a aucune candidature validée.
+    </p>
+{% else %}
+    <div class="row w-100">
+        {% for  jobOffer in appliedJobOffers %}
             <div class="col-md-4 p-1">
                 <div class="card w-100 h-100" style="width: 18rem;">
                     <div class="card-header d-flex justify-content-between align-items-center">

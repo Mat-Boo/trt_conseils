@@ -9,14 +9,6 @@ a {
 a:hover {
     color: white;
 }
-.login_menu {
-    color: white;
-}
-
-.login_menu a {
-    color: white;
-    text-decoration: none;
-}
 
 main {
     min-height: calc(100vh - 146px);
@@ -69,6 +61,12 @@ footer p {
 
 .add-offer_btn {
     width: 170px;
+    text-decoration: none;
+    color: white;
+}
+
+.add-consultant_btn {
+    width: 200px;
     text-decoration: none;
     color: white;
 }

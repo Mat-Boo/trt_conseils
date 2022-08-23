@@ -41,9 +41,13 @@ class JobOffer
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'jobOffersAppliedFor')]
     private Collection $candidates;
 
+    #[ORM\OneToMany(mappedBy: 'job_offer', targetEntity: Candidature::class)]
+    private Collection $candidatures;
+
     public function __construct()
     {
         $this->candidates = new ArrayCollection();
+        $this->candidatures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -155,6 +159,36 @@ class JobOffer
     public function removeCandidate(User $candidate): self
     {
         $this->candidates->removeElement($candidate);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidature>
+     */
+    public function getCandidatures(): Collection
+    {
+        return $this->candidatures;
+    }
+
+    public function addCandidature(Candidature $candidature): self
+    {
+        if (!$this->candidatures->contains($candidature)) {
+            $this->candidatures->add($candidature);
+            $candidature->setJobOffer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidature(Candidature $candidature): self
+    {
+        if ($this->candidatures->removeElement($candidature)) {
+            // set the owning side to null (unless already changed)
+            if ($candidature->getJobOffer() === $this) {
+                $candidature->setJobOffer(null);
+            }
+        }
 
         return $this;
     }

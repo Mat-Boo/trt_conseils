@@ -18,7 +18,7 @@
         <li class="account-item m-4 rounded">
             <a href="{{ path('app_account_applied_job_offers') }}" class="text-dark d-flex flex-column align-items-center">
                 <img src="{{ asset('assets/img/job.png') }}" alt="job" height="32px">
-                <span class="text-center mt-2">Offres d'emploi postulées</span>
+                <span class="text-center mt-2">Mes candidatures</span>
             </a>
         </li>
     {% elseif 'ROLE_RECRUITER' in  app.user.roles %}

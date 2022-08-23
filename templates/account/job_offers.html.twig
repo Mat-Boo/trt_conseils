@@ -43,20 +43,6 @@
                                     <a href="{{ path('app_account_job_offer_edit', {'id' : jobOffer.id}) }}" class="bg-info rounded p-2 text-white">Modifier</a>
                                 </div>
                             </div>
-                            <div class="card-footer">
-                                <h6>Candidats ayant postulés à cette offre :</h6>
-                                {% if jobOffer.candidates|length == 0 %}
-                                    <p>Aucun candidat n'a postulé à cette offre</p>
-                                {% endif %}
-                                <ul>
-                                    {% for candidate in jobOffer.candidates %}
-                                        <li class="d-flex justify-content-between align-items-center">
-                                            <span>{{ candidate.firstname }} {{ candidate.lastname }}</span>
-                                            <a href="../uploads/{{ candidate.cv }}" class="text-light bg-secondary px-3 py-1 rounded">Cv</a>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 {% endif %}
@@ -87,17 +73,19 @@
                             </div>
                             <div class="card-footer">
                                 <h6>Candidats ayant postulés à cette offre :</h6>
-                                {% if jobOffer.candidates|length == 0 %}
+                                {% set countApprovedCandidature = 0 %}
+                                {% for candidature in jobOffer.candidatures %}
+                                    {% if candidature.isApproved == 1 %}
+                                        {% set countApprovedCandidature = countApprovedCandidature + 1  %}
+                                        <li class="d-flex justify-content-between align-items-center my-1">
+                                            <span>{{ candidature.candidate.firstname }} {{ candidature.candidate.lastname }}</span>
+                                            <a href="../uploads/{{ candidature.candidate.cv }}" class="text-light bg-secondary px-3 py-1 rounded">Cv</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if countApprovedCandidature == 0 %}
                                     <p>Aucun candidat n'a postulé à cette offre</p>
                                 {% endif %}
-                                <ul>
-                                    {% for candidate in jobOffer.candidates %}
-                                        <li class="d-flex justify-content-between align-items-center">
-                                            <span>{{ candidate.firstname }} {{ candidate.lastname }}</span>
-                                            <a href="../uploads/{{ candidate.cv }}" class="text-light bg-secondary px-3 py-1 rounded">Cv</a>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
                             </div>
                         </div>
                     </div>

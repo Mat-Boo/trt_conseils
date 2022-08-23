@@ -58,10 +58,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: JobOffer::class, mappedBy: 'candidates')]
     private Collection $jobOffersAppliedFor;
 
+    #[ORM\OneToMany(mappedBy: 'candidate', targetEntity: Candidature::class)]
+    private Collection $candidatures;
+
     public function __construct()
     {
         $this->jobOffers = new ArrayCollection();
         $this->jobOffersAppliedFor = new ArrayCollection();
+        $this->candidatures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -270,6 +274,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->jobOffersAppliedFor->removeElement($jobOffersAppliedFor)) {
             $jobOffersAppliedFor->removeCandidate($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidature>
+     */
+    public function getCandidatures(): Collection
+    {
+        return $this->candidatures;
+    }
+
+    public function addCandidature(Candidature $candidature): self
+    {
+        if (!$this->candidatures->contains($candidature)) {
+            $this->candidatures->add($candidature);
+            $candidature->setCandidate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidature(Candidature $candidature): self
+    {
+        if ($this->candidatures->removeElement($candidature)) {
+            // set the owning side to null (unless already changed)
+            if ($candidature->getCandidate() === $this) {
+                $candidature->setCandidate(null);
+            }
         }
 
         return $this;
