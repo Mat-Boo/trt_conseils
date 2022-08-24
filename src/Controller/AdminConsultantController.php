@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Class\Mail;
 use App\Entity\User;
 use App\Form\ConsultantType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,7 +34,7 @@ class AdminConsultantController extends AbstractController
     #[Route('/admin/consultant/creer', name: 'app_admin_consultant_create')]
     public function create(Request $request, UserPasswordHasherInterface $hasher): Response
     {
-        $error = $success = null;
+        $error = null;
 
         $consultant = new User();
 
@@ -45,7 +46,7 @@ class AdminConsultantController extends AbstractController
                 //Ajout du rôle ROLE_CONSULTANT
                 $consultant->setRoles(['ROLE_CONSULTANT']);
 
-                //Activation du comptej
+                //Activation du compte
                 $consultant->setIs_approved(true);
 
                 //Hashage du mot de passe                
@@ -54,25 +55,24 @@ class AdminConsultantController extends AbstractController
 
                 $this->entityManager->persist($consultant);
                 $this->entityManager->flush();
-                return $this->redirectToRoute('app_admin_consultant');
+                $this->addFlash("success", "Le consultant a été créé correctement.");
 
-                $success = "Le consultant a été créé correctement";
+                return $this->redirectToRoute('app_admin_consultant');
             } else {
-                $error = "L'email que vous avez renseigné existe déjà.";                
+                $error = "L'email que vous avez renseigné existe déjà.";
             }
         }
 
         return $this->render('admin/consultant_form.html.twig', [
             'form' => $form->createView(),
-            'error' => $error,
-            'success' => $success
+            'error' => $error
         ]);
     }
 
     #[Route('/admin/consultant/{id}/editer', name: 'app_admin_consultant_edit')]
     public function edit(Request $request, int $id, UserPasswordHasherInterface $hasher): Response
     {
-        $error = $success = null;
+        $error = null;
 
         $consultant = $this->entityManager->getRepository(User::class)->findOneById($id);
 
@@ -92,9 +92,9 @@ class AdminConsultantController extends AbstractController
                 $consultant->setPassword($password);
 
                 $this->entityManager->flush();
+                $this->addFlash("success", "Le consultant $id a été modifié correctement.");
+
                 return $this->redirectToRoute('app_admin_consultant');
-                
-                $success = "Le consultant a été créé correctement";
             } else {
                 $error = "L'email que vous avez renseigné existe déjà.";                
             }
@@ -103,8 +103,7 @@ class AdminConsultantController extends AbstractController
         return $this->render('admin/consultant_form.html.twig', [
             'form' => $form->createView(),
             'consultant' => $consultant,
-            'error' => $error,
-            'success' => $success
+            'error' => $error
         ]);
     }
 
@@ -117,9 +116,9 @@ class AdminConsultantController extends AbstractController
         if ($consultant) {
             $this->entityManager->remove($consultant);
             $this->entityManager->flush();
-            $success = "Le consultant $id a bien été supprimé.";
+            $this->addFlash("success", "Le consultant $id a bien été supprimé.");
         } else {
-            $error = "Le consultant $id n'a pu être supprimé.";
+            $this->addFlash("danger", "Le consultant $id n'a pas pu être supprimé.");
         }
 
         return $this->redirectToRoute('app_admin_consultant');

@@ -17,44 +17,46 @@
         <div class="alert alert-success">{{ success }}</div>
         <hr>
     {% endif %}
-    <div class="w-75 d-flex flex-column align-items-center">
-        <div class="d-flex flex-column align-items-center mb-3 w-50">
-            <p class="m-0">Je m'inscris en tant que :</p>
-            <select name="user_select" id="user_select" class="form-select my-3">
-                <option value="">Sélectionnez une option</option>
-                <option value="candidate">Candidat</option>
-                <option value="recruiter">Recruteur</option>
-            </select>
-            <button type="button" class="btn btn-info px-5 next_btn">Suivant</button>
+    {% if not success %}
+        <div class="w-75 d-flex flex-column align-items-center">
+            <div class="d-flex flex-column align-items-center mb-3 w-50">
+                <p class="m-0">Je m'inscris en tant que :</p>
+                <select name="user_select" id="user_select" class="form-select my-3">
+                    <option value="">Sélectionnez une option</option>
+                    <option value="candidate">Candidat</option>
+                    <option value="recruiter">Recruteur</option>
+                </select>
+                <button type="button" class="btn btn-info px-5 next_btn">Suivant</button>
+            </div>
+            <hr class="w-75 hrSignup">
+            <div class="formCandidate">
+                {{ form_start(formCandidate, { 'attr' : { 'class': 'd-flex flex-column align-items-center' } }) }}
+                    <div class="row w-75 my-4">
+                        <div class="col-md-12">{{form_row(formCandidate.email)}}</div>
+                        <div class="col-md-6">{{form_row(formCandidate.password.first)}}</div>
+                        <div class="col-md-6">{{form_row(formCandidate.password.second)}}</div>
+                        <div class="col-md-6">{{form_row(formCandidate.firstname)}}</div>
+                        <div class="col-md-6">{{form_row(formCandidate.lastname)}}</div>
+                        <div class="col-md-12">{{form_row(formCandidate.job)}}</div>
+                        <div class="col-md-12">{{form_row(formCandidate.cv)}}</div>
+                        <div class="col-md-12 text-center">{{form_row(formCandidate.submit, {'attr': {'class': 'btn btn-info w-25'}})}}</div>
+                    </div>
+                {{ form_end(formCandidate) }}
+            </div>
+            <div class="formRecruiter">
+                {{ form_start(formRecruiter, { 'attr' : { 'class': 'd-flex flex-column align-items-center' } }) }}
+                    <div class="row w-75 my-4">
+                        <div class="col-md-12">{{form_row(formRecruiter.email)}}</div>
+                        <div class="col-md-6">{{form_row(formRecruiter.password.first)}}</div>
+                        <div class="col-md-6">{{form_row(formRecruiter.password.second)}}</div>
+                        <div class="col-md-12">{{form_row(formRecruiter.company)}}</div>
+                        <div class="col-md-12">{{form_row(formRecruiter.address)}}</div>
+                        <div class="col-md-12 text-center">{{form_row(formRecruiter.submit, {'attr': {'class': 'btn btn-info w-25'}})}}</div>
+                    </div>
+                {{ form_end(formRecruiter) }}
+            </div>
         </div>
-        <hr class="w-75 hrSignup">
-        <div class="formCandidate">
-            {{ form_start(formCandidate, { 'attr' : { 'class': 'd-flex flex-column align-items-center' } }) }}
-                <div class="row w-75 my-4">
-                    <div class="col-md-12">{{form_row(formCandidate.email)}}</div>
-                    <div class="col-md-6">{{form_row(formCandidate.password.first)}}</div>
-                    <div class="col-md-6">{{form_row(formCandidate.password.second)}}</div>
-                    <div class="col-md-6">{{form_row(formCandidate.firstname)}}</div>
-                    <div class="col-md-6">{{form_row(formCandidate.lastname)}}</div>
-                    <div class="col-md-12">{{form_row(formCandidate.job)}}</div>
-                    <div class="col-md-12">{{form_row(formCandidate.cv)}}</div>
-                    <div class="col-md-12 text-center">{{form_row(formCandidate.submit, {'attr': {'class': 'btn btn-info w-25'}})}}</div>
-                </div>
-            {{ form_end(formCandidate) }}
-        </div>
-        <div class="formRecruiter">
-            {{ form_start(formRecruiter, { 'attr' : { 'class': 'd-flex flex-column align-items-center' } }) }}
-                <div class="row w-75 my-4">
-                    <div class="col-md-12">{{form_row(formRecruiter.email)}}</div>
-                    <div class="col-md-6">{{form_row(formRecruiter.password.first)}}</div>
-                    <div class="col-md-6">{{form_row(formRecruiter.password.second)}}</div>
-                    <div class="col-md-12">{{form_row(formRecruiter.company)}}</div>
-                    <div class="col-md-12">{{form_row(formRecruiter.address)}}</div>
-                    <div class="col-md-12 text-center">{{form_row(formRecruiter.submit, {'attr': {'class': 'btn btn-info w-25'}})}}</div>
-                </div>
-            {{ form_end(formRecruiter) }}
-        </div>
-    </div>
+    {% endif %}
 {% endblock %}
 {% block script %}
     <script src="{{ asset('assets/js/displayRegisterForm.js') }}"></script>

@@ -22,7 +22,6 @@ class AccountModifyPasswordController extends AbstractController
     #[Route('/compte/modifier-mot-de-passe', name: 'app_account_modify_password')]
     public function index(Request $request, UserPasswordHasherInterface $hasher): Response
     {
-        $success = null;
         $error = null;
 
         $user = $this->getUser();
@@ -37,7 +36,7 @@ class AccountModifyPasswordController extends AbstractController
                 $password = $hasher->hashPassword($user, $new_pwd);
                 $user->setPassword($password);
                 $this->entityManager->flush();
-                $success = 'Votre mot de passe a bien été mis à jour.';
+                $this->addFlash("success", "Votre mot de passe a bien été mis à jour.");
                 return $this->redirectToRoute('app_account_infos');
             } else {
                 $error = 'Votre mot de passe actuel est incorrect.';
@@ -46,7 +45,6 @@ class AccountModifyPasswordController extends AbstractController
 
         return $this->render('account/modify_password.html.twig', [
             'form' => $form->createView(),
-            'success' => $success,
             'error' => $error
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Class\Mail;
 use App\Entity\User;
 use App\Form\RegisterCandidateType;
 use App\Form\RegisterRecruiterType;
@@ -55,7 +56,15 @@ class RegisterController extends AbstractController
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
                 
-                $success = "Votre inscription s'est correctement déroulée. Vous recevrez un mail lorsque votre compte sera actif.";
+                $success = "Votre inscription s'est correctement déroulée. Lorsque votre compte sera actif, vous recevrez un mail à l'adresse suivante : {$user->getEmail()}.";
+                
+                //Envoie d'un mail au candidat nouvellement inscrit pour prise en compte de son inscription
+                $mail = new Mail();
+                $contentMail = "Bonjour {$user->getFirstname()},<br/><br/>";
+                $contentMail .= "Nous avons bien pris en compte votre demande d'inscription auprès de nos services.<br/>";
+                $contentMail .= "Nous reviendrons rapidement vers vous pour valider cette demande.<br/><br/>";
+                $mail->send($user->getEmail(), $user->getFirstname() . ' ' . $user->getLastname(), 'TRT Conseils - Inscription', $contentMail);
+
             } else {
                 $error = "L'email que vous avez renseigné existe déjà.";                
             }
@@ -78,6 +87,14 @@ class RegisterController extends AbstractController
                 $this->entityManager->flush();
 
                 $success = "Votre inscription s'est correctement déroulée. Vous recevrez un mail lorsque votre compte sera actif.";
+
+                //Envoie d'un mail au recruteur nouvellement inscrit pour prise en compte de son inscription
+                $mail = new Mail();
+                $contentMail = "Bonjour,<br/><br/>";
+                $contentMail .= "Nous avons bien pris en compte votre demande d'inscription auprès de nos services.<br/>";
+                $contentMail .= "Nous reviendrons rapidement vers vous pour valider cette demande.<br/><br/>";
+                $mail->send($user->getEmail(), $user->getCompany(), 'TRT Conseils - Inscription', $contentMail);
+
             } else {
                 $error = "L'email que vous avez renseigné existe déjà.";                
             }

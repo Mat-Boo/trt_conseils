@@ -53,6 +53,7 @@ class AccountJobOffersController extends AbstractController
             $jobOffer->setRecruiter($this->getUser());
             $this->entityManager->persist($jobOffer);
             $this->entityManager->flush();
+            $this->addFlash("success", "Votre offre d'emploi a bien été créée.");
             return $this->redirectToRoute('app_account_job_offers');
         }
 
@@ -74,6 +75,7 @@ class AccountJobOffersController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();
+            $this->addFlash("success", "Votre offre d'emploi $id a bien été modifiée.");
             return $this->redirectToRoute('app_account_job_offers');
         }
 
@@ -90,6 +92,7 @@ class AccountJobOffersController extends AbstractController
         if ($jobOffer && $jobOffer->getRecruiter() == $this->getUser()) {
             $this->entityManager->remove($jobOffer);
             $this->entityManager->flush();
+            $this->addFlash("success", "Votre offre d'emploi $id a bien été supprimée.");
         }
         
         return $this->redirectToRoute('app_account_job_offers');

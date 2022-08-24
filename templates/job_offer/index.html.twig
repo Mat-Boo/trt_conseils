@@ -4,6 +4,14 @@
 
 {% block content %}
 <h1>Offres d'emploi</h1>
+{# display any flash message #}    
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
 {% if approvedJobOffersNonPostulated|length == 0 %}
     <p class="text-center">
         Il n'y a, actuellement, aucune offres d'emploi.

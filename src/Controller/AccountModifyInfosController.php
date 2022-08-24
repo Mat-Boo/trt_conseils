@@ -24,7 +24,7 @@ class AccountModifyInfosController extends AbstractController
     public function index(Request $request): Response
     {
 
-        $error = $success = null;
+        $error = null;
         
         $user = $this->getUser();
         if (!$user || $user !== $this->getUser()) {
@@ -49,7 +49,7 @@ class AccountModifyInfosController extends AbstractController
                     $user->setCv($actualCvName);
                 }
                 $this->entityManager->flush();
-                $success = "Vos informations personnelles ont correctement été mises à jour.";
+                $this->addFlash("success", "Vos informations personnelles ont correctement été mises à jour.");
                 return $this->redirectToRoute('app_account_infos');
             } else {
                 $error = "L'email que vous avez renseigné existe déjà.";
@@ -63,7 +63,7 @@ class AccountModifyInfosController extends AbstractController
             $search_email = $this->entityManager->getRepository(User::class)->findOneByEmail($user->getEmail());
             if (!$search_email || $search_email->getEmail() === $actualEmail) {
                 $this->entityManager->flush();
-                $success = "Vos informations personnelles ont correctement été mises à jour.";
+                $this->addFlash("success", "Vos informations personnelles ont correctement été mises à jour.");
                 return $this->redirectToRoute('app_account_infos');
             } else {
                 $error = "L'email que vous avez renseigné existe déjà.";
@@ -74,8 +74,7 @@ class AccountModifyInfosController extends AbstractController
         return $this->render('account/modify_infos.html.twig', [
             'formCandidate' => $formCanditate->createView(),
             'formRecruiter' => $formRecruiter->createView(),
-            'error' => $error,
-            'success' => $success,
+            'error' => $error
         ]);
     }
 }

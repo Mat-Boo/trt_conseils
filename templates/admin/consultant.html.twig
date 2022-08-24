@@ -4,6 +4,14 @@
 
 {% block content %}
 <h1>Gestion des consultants</h1>
+{# display any flash message #}    
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
 <div class="d-flex justify-content-between w-100 flex-wrap align-items-center">
     <a href="{{ path('app_admin') }}" class="back_btn bg-dark d-flex align-items-center justify-content-between p-2 mb-5 align-self-start">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="" viewBox="0 0 16 16">
@@ -37,8 +45,8 @@
                         <p class="card-title">{{ consultant.email }}</p>
                         <hr>
                         <div class="d-flex justify-content-between align-items-center">
-                            <a href="{{ path('app_admin_consultant_delete', {'id' : consultant.id}) }}" class="bg-danger rounded p-2 text-white">Supprimer</a>
-                            <a href="{{ path('app_admin_consultant_edit', {'id' : consultant.id}) }}" class="bg-success rounded p-2 text-white">Modifier</a>
+                            <a href="{{ path('app_admin_consultant_delete', {'id' : consultant.id}) }}" class="bg-danger bg-opacity-75 rounded p-2 text-white">Supprimer</a>
+                            <a href="{{ path('app_admin_consultant_edit', {'id' : consultant.id}) }}" class="bg-success bg-opacity-75 rounded p-2 text-white">Modifier</a>
                         </div>
                     </div>
                 </div>

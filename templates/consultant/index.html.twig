@@ -4,9 +4,14 @@
 
 {% block content %}
 <h1>Bienvenue sur l'espace Consultant</h1>
-{% if success is defined %}
-    <p class="alert alert-success">{{ success }}</p>
-{% endif %}
+{# display any flash message #}    
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
 <div class="w-100 rounded p-5 bg-light d-flex flex-column align-items-center">
     <span class="mb-4 bg-secondary text-light rounded px-2 py-1">Candidatures en attente d'approbation ({{ nonApprovedCandidatures|length }})</span>
     {% if nonApprovedCandidatures|length == 0 %}
@@ -16,7 +21,7 @@
     {% else %}
         <div>
             {% for  candidature in nonApprovedCandidatures %}
-            <div class="row w-100 d-flex justify-content-between align-items-center my-4">
+            <div class="row w-100 d-flex justify-content-between align-items-center my-4 bg-secondary bg-opacity-10 rounded p-2">
                 <div class="col-md-4 p-1">
                     <div class="card w-100" style="width: 18rem;">
                         <div class="card-header d-flex justify-content-between align-items-center">
@@ -34,7 +39,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
                         </svg>
-                        <a href="{{ path('app_consultant_candidature_approve', {'id' : candidature.id}) }}" class="bg-success rounded p-2 text-white">Approuver</a>
+                        <a href="{{ path('app_consultant_candidature_approve', {'id' : candidature.id}) }}" class="bg-success bg-opacity-75 rounded p-2 text-white">Approuver</a>
                     </div>
                 </div>
                 <div class="col-md-5 p-1">
@@ -75,7 +80,7 @@
                             <p>Offre proposée par <b>{{ jobOffer.recruiter.company }}</b></p>
                             <hr>
                             <div class="d-flex justify-content-end align-items-center">
-                                <a href="{{ path('app_consultant_job_offer_approve', {'id' : jobOffer.id}) }}" class="bg-success rounded p-2 text-white">Approuver</a>
+                                <a href="{{ path('app_consultant_job_offer_approve', {'id' : jobOffer.id}) }}" class="bg-success bg-opacity-75 rounded p-2 text-white">Approuver</a>
                             </div>
                         </div>
                     </div>
@@ -103,7 +108,7 @@
                             <p><a href="../uploads/{{user.cv}}" class="bg-secondary p-2 rounded text-white">Voir le CV</a></p>
                             <hr>
                             <div class="d-flex justify-content-end align-items-center">
-                                <a href="{{ path('app_consultant_candidate_approve', {'id' : user.id}) }}" class="bg-success rounded p-2 text-white">Approuver</a>
+                                <a href="{{ path('app_consultant_candidate_approve', {'id' : user.id}) }}" class="bg-success bg-opacity-75 rounded p-2 text-white">Approuver</a>
                             </div>
                         </div>
                     </div>
@@ -130,7 +135,7 @@
                             <p class="card-text"><b>Adresse : </b>{{ user.address }}</p>
                             <hr>
                             <div class="d-flex justify-content-end align-items-center">
-                                <a href="{{ path('app_consultant_recruiter_approve', {'id' : user.id}) }}" class="bg-success rounded p-2 text-white">Approuver</a>
+                                <a href="{{ path('app_consultant_recruiter_approve', {'id' : user.id}) }}" class="bg-success bg-opacity-75 rounded p-2 text-white">Approuver</a>
                             </div>
                         </div>
                     </div>
