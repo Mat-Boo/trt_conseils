@@ -55,8 +55,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'recruiter', targetEntity: JobOffer::class)]
     private Collection $jobOffers;
 
-    #[ORM\ManyToMany(targetEntity: JobOffer::class, mappedBy: 'candidates')]
-    private Collection $jobOffersAppliedFor;
+/*     #[ORM\ManyToMany(targetEntity: JobOffer::class, mappedBy: 'candidates')]
+    private Collection $jobOffersAppliedFor; */
 
     #[ORM\OneToMany(mappedBy: 'candidate', targetEntity: Candidature::class)]
     private Collection $candidatures;
@@ -64,7 +64,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->jobOffers = new ArrayCollection();
-        $this->jobOffersAppliedFor = new ArrayCollection();
+        /* $this->jobOffersAppliedFor = new ArrayCollection(); */
         $this->candidatures = new ArrayCollection();
     }
 
@@ -255,7 +255,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, JobOffer>
      */
-    public function getJobOffersAppliedFor(): Collection
+/*     public function getJobOffersAppliedFor(): Collection
     {
         return $this->jobOffersAppliedFor;
     }
@@ -277,7 +277,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
-    }
+    } */
 
     /**
      * @return Collection<int, Candidature>

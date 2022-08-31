@@ -86,3 +86,34 @@ ul {
     background-color: #e5e8eb;
     padding: 30px;
 }
+
+.candidatureBtns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.approveBtn {
+    margin-left: 24px;
+}
+
+.refuseBtn {
+    margin-right: 24px;
+}
+
+@media screen and (min-width: 992px) {
+    .candidatureBtns {
+        flex-direction: column;
+    }
+    .arrow-down {
+        transform: rotate(-90deg);
+    }
+    .approveBtn {
+        margin-left: 0;
+    }
+    
+    .refuseBtn {
+        margin-right: 0;
+    }
+}

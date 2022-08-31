@@ -44,9 +44,11 @@ class ConsultantController extends AbstractController
     {
         $candidature = $this->entityManager->getRepository(Candidature::class)->findOneById($id);
 
-        $candidature->setIsApproved(true);
-        $this->entityManager->flush();
-        $this->addFlash("success", "La candidature $id de {$candidature->getCandidate()->getFirstname()} {$candidature->getCandidate()->getLastname()} pour l'offre de {$candidature->getJobOffer()->getTitle()} a bien été approuvée.");
+        if ($candidature) {
+            $candidature->setIsApproved(true);
+            $this->entityManager->flush();
+            $this->addFlash("success", "La candidature $id de {$candidature->getCandidate()->getFirstname()} {$candidature->getCandidate()->getLastname()} pour l'offre de {$candidature->getJobOffer()->getTitle()} a bien été approuvée.");
+        }
 
         //Envoie d'un mail au candidat pour le prévenir de la validation de sa candidature
         $mail = new Mail();
@@ -63,6 +65,29 @@ class ConsultantController extends AbstractController
         $contentMail .= "Vous pouvez retrouver toutes les informations du candidat sur l'offre concernée directement sur votre espace depuis la rubrique 'Mon compte'.<br/>";
         $contentMail .= "Merci d'avoir choisi TRT Conseils.<br/><br/>";
         $mail->send($candidature->getJobOffer()->getRecruiter()->getEmail(), $candidature->getJobOffer()->getRecruiter()->getCompany(), 'TRT Conseils - Nouvelle candidature', $contentMail);
+
+        return $this->redirectToRoute('app_consultant');
+    }
+
+    #[Route('/consultant/candidature/{id}/refuser', name: 'app_consultant_candidature_refuse')]
+    public function refuseCandidature(int $id): Response
+    {
+        $candidature = $this->entityManager->getRepository(Candidature::class)->findOneById($id);
+
+        if ($candidature) {
+            $this->entityManager->remove($candidature);
+            $this->entityManager->flush();
+            $this->addFlash("success", "La candidature $id de {$candidature->getCandidate()->getFirstname()} {$candidature->getCandidate()->getLastname()} pour l'offre de {$candidature->getJobOffer()->getTitle()} a bien été refusée.");
+        }
+        
+
+        //Envoie d'un mail au candidat pour le prévenir du refus de sa candidature
+        $mail = new Mail();
+        $contentMail = "Bonjour {$candidature->getCandidate()->getFirstname()},<br/><br/>";
+        $contentMail .= "Votre candidature pour le poste de {$candidature->getJobOffer()->getTitle()} n'a malheureusement pas été approuvée.<br/>";
+        $contentMail .= "Pour plus d'information, vous pouvez contacter TRT Conseils par mail à l'adresse suivante : contact@trt-conseil.com<br/>";
+        $contentMail .= "Merci d'avoir choisi TRT Conseils.<br/><br/>";
+        $mail->send($candidature->getCandidate()->getEmail(), $candidature->getCandidate()->getFirstname() . ' ' . $candidature->getCandidate()->getLastname(), 'TRT Conseils - Candidature refusée', $contentMail);
 
         return $this->redirectToRoute('app_consultant');
     }
