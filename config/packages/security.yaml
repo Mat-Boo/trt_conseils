@@ -38,6 +38,9 @@ security:
          - { path: ^/compte/mes-offres-emploi, roles: ROLE_RECRUITER }
          - { path: ^/compte/offre-emploi/, roles: ROLE_RECRUITER }
          - { path: ^/consultant, roles: ROLE_CONSULTANT }
+         - { path: ^/offres-emploi, roles: ROLE_ADMIN }
+         - { path: ^/offres-emploi, roles: ROLE_CONSULTANT }
+         - { path: ^/offres-emploi, roles: ROLE_CANDIDATE }
 
 when@test:
     security:
