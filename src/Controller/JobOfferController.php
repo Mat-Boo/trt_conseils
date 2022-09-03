@@ -57,7 +57,7 @@ class JobOfferController extends AbstractController
             $this->entityManager->persist($candidature);
             $this->entityManager->flush();
 
-            $this->addFlash("success", "Votre demande de candidature a bien été prise en compte. Un email vous confirmera la validation de celle-ci par nos services.");
+            $this->addFlash("success", "Votre demande de candidature a bien été prise en compte. Nous vous informerons prochainement par mail si votre candidature a été validée ou refusée.");
             return $this->redirectToRoute('app_job_offers');
         }
     }
