@@ -47,7 +47,7 @@ class ConsultantController extends AbstractController
         if ($candidature) {
             $candidature->setIsApproved(true);
             $this->entityManager->flush();
-            $this->addFlash("success", "La candidature $id de {$candidature->getCandidate()->getFirstname()} {$candidature->getCandidate()->getLastname()} pour l'offre de {$candidature->getJobOffer()->getTitle()} a bien été approuvée.");
+            $this->addFlash("success", "La candidature de {$candidature->getCandidate()->getFirstname()} {$candidature->getCandidate()->getLastname()} pour l'offre de {$candidature->getJobOffer()->getTitle()} a bien été approuvée.");
         }
 
         //Envoie d'un mail au candidat pour le prévenir de la validation de sa candidature
@@ -77,7 +77,7 @@ class ConsultantController extends AbstractController
         if ($candidature) {
             $this->entityManager->remove($candidature);
             $this->entityManager->flush();
-            $this->addFlash("success", "La candidature $id de {$candidature->getCandidate()->getFirstname()} {$candidature->getCandidate()->getLastname()} pour l'offre de {$candidature->getJobOffer()->getTitle()} a bien été refusée.");
+            $this->addFlash("success", "La candidature de {$candidature->getCandidate()->getFirstname()} {$candidature->getCandidate()->getLastname()} pour l'offre de {$candidature->getJobOffer()->getTitle()} a bien été refusée.");
         }
         
 
