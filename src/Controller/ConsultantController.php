@@ -63,7 +63,7 @@ class ConsultantController extends AbstractController
         $contentMail = "Bonjour,<br/><br/>";
         $contentMail .= "Une nouvelle candidature pour le poste de {$candidature->getJobOffer()->getTitle()} a été ajoutée à cette offre.<br/>";
         $contentMail .= "Vous pouvez retrouver toutes les informations du candidat sur l'offre concernée directement sur votre espace depuis la rubrique 'Mon compte'.<br/>";
-        $contentMail .= "Voici un lien direct vers le CV du candidat : <br/>";
+        $contentMail .= "Voici un lien direct vers le CV du candidat {$candidature->getCandidate()->getFirstname()} {$candidature->getCandidate()->getLastname()}: <br/>";
         $contentMail .= "<a href=https://trt-conseils-studi.herokuapp.com/uploads/" . $candidature->getCandidate()->getCv() . ">Télécharger le CV</a><br/>";
         $contentMail .= "Merci d'avoir choisi TRT Conseils.<br/><br/>";
         $mail->send($candidature->getJobOffer()->getRecruiter()->getEmail(), $candidature->getJobOffer()->getRecruiter()->getCompany(), 'TRT Conseils - Nouvelle candidature', $contentMail);
