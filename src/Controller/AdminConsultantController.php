@@ -55,7 +55,7 @@ class AdminConsultantController extends AbstractController
 
                 $this->entityManager->persist($consultant);
                 $this->entityManager->flush();
-                $this->addFlash("success", "Le consultant a été créé correctement.");
+                $this->addFlash("success", "Le consultant {$consultant->getFirstname()} {$consultant->getLastname()} a été créé correctement.");
 
                 return $this->redirectToRoute('app_admin_consultant');
             } else {
@@ -92,7 +92,7 @@ class AdminConsultantController extends AbstractController
                 $consultant->setPassword($password);
 
                 $this->entityManager->flush();
-                $this->addFlash("success", "Le consultant $id a été modifié correctement.");
+                $this->addFlash("success", "Le consultant {$consultant->getFirstname()} {$consultant->getLastname()} a été modifié correctement.");
 
                 return $this->redirectToRoute('app_admin_consultant');
             } else {
