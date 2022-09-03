@@ -40,6 +40,7 @@ class JobOfferController extends AbstractController
                 $approvedJobOffersNonPostulated[] = $jobOffer;
             }
         }
+
         return $this->render('job_offer/index.html.twig', [
             'approvedJobOffersNonPostulated' => $approvedJobOffersNonPostulated
         ]);

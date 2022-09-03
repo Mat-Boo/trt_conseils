@@ -32,7 +32,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/mon-compte, roles: ROLE_USER }
          - { path: ^/candidat, roles: ROLE_CANDIDATE }
          - { path: ^/recruteur, roles: ROLE_RECRUITER }
          - { path: ^/compte/offres-emploi-postulees, roles: ROLE_CANDIDATE }

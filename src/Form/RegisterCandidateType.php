@@ -83,10 +83,9 @@ class RegisterCandidateType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Veuillez saisir votre emploi'
                 ]
-                ]);
-        /* if (substr($_SERVER['REQUEST_URI'], 0, 12) === '/inscription') { */
-            $builder->add('cv', FileType::class, [
-                'label' => 'Votre CV au format PDF exclusivement',
+                ])
+            ->add('cv', FileType::class, [
+                'label' => 'Votre CV au format PDF exclusivement (Max 5Mo)',
                 'data_class' => null,
                 'constraints' => [
                     new File([
@@ -98,9 +97,8 @@ class RegisterCandidateType extends AbstractType
                         'mimeTypesMessage' => 'Seul le format PDF est accepté.',
                     ])
                 ],
-            ]);
-        /* } */
-        $builder->add('submit', SubmitType::class, [
+            ])
+            ->add('submit', SubmitType::class, [
                 'label' => 'Valider'
             ])
         ;

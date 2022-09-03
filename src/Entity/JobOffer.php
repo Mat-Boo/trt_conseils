@@ -38,8 +38,8 @@ class JobOffer
     #[ORM\Column]
     private ?bool $is_approved = false;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'jobOffersAppliedFor')]
-    private Collection $candidates;
+/*     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'jobOffersAppliedFor')]
+    private Collection $candidates; */
 
     #[ORM\OneToMany(mappedBy: 'job_offer', targetEntity: Candidature::class)]
     private Collection $candidatures;
@@ -142,7 +142,7 @@ class JobOffer
     /**
      * @return Collection<int, User>
      */
-    public function getCandidates(): Collection
+    /* public function getCandidates(): Collection
     {
         return $this->candidates;
     }
@@ -161,7 +161,7 @@ class JobOffer
         $this->candidates->removeElement($candidate);
 
         return $this;
-    }
+    } */
 
     /**
      * @return Collection<int, Candidature>

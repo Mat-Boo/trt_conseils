@@ -45,7 +45,8 @@
                         <p class="card-title">{{ consultant.email }}</p>
                         <hr>
                         <div class="d-flex justify-content-between align-items-center">
-                            <a href="{{ path('app_admin_consultant_delete', {'id' : consultant.id}) }}" class="bg-danger bg-opacity-75 rounded p-2 text-white">Supprimer</a>
+                            <a href="{{ path('app_admin_consultant_delete', {'id' : consultant.id}) }}" class="bg-danger bg-opacity-75 rounded p-2 text-white"
+                                onclick="return confirm('Voulez-vous vraiment supprimer le consultant {{ consultant.firstname }} {{ consultant.lastname }} ?')">Supprimer</a>
                             <a href="{{ path('app_admin_consultant_edit', {'id' : consultant.id}) }}" class="bg-success bg-opacity-75 rounded p-2 text-white">Modifier</a>
                         </div>
                     </div>

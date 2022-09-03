@@ -116,9 +116,9 @@ class AdminConsultantController extends AbstractController
         if ($consultant) {
             $this->entityManager->remove($consultant);
             $this->entityManager->flush();
-            $this->addFlash("success", "Le consultant $id a bien été supprimé.");
+            $this->addFlash("success", "Le consultant {$consultant->getFirstname()} {$consultant->getLastname()} a bien été supprimé.");
         } else {
-            $this->addFlash("danger", "Le consultant $id n'a pas pu être supprimé.");
+            $this->addFlash("danger", "Le consultant {$consultant->getFirstname()} {$consultant->getLastname()} n'a pas pu être supprimé.");
         }
 
         return $this->redirectToRoute('app_admin_consultant');

@@ -57,7 +57,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * Permet d'afficher les consultants dans l'espace admin
+     * Permet de trouver les utilisateurs selon leur rôle
      */
     public function findUsersByRole($role)
     {
