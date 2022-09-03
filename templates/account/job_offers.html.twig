@@ -47,7 +47,8 @@
                                 <p class="card-text"><b>Lieu : </b>{{ jobOffer.place }}</p>
                                 <p class="card-text"><b>Description : </b>{{ jobOffer.description }}</p>
                                 <div class="d-flex justify-content-between">
-                                    <a href="{{ path('app_account_job_offer_delete', {'id' : jobOffer.id}) }}" class="bg-danger bg-opacity-75 rounded p-2 text-white">Supprimer</a>
+                                    <a href="{{ path('app_account_job_offer_delete', {'id' : jobOffer.id}) }}" class="bg-danger bg-opacity-75 rounded p-2 text-white"
+                                    onclick="return confirm('Voulez-vous vraiment supprimer l\'offre d\'emploi pour le poste de {{ jobOffer.title }} ?')">Supprimer</a>
                                     <a href="{{ path('app_account_job_offer_edit', {'id' : jobOffer.id}) }}" class="bg-info rounded p-2 text-white">Modifier</a>
                                 </div>
                             </div>
