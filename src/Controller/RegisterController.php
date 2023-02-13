@@ -49,6 +49,7 @@ class RegisterController extends AbstractController
                 
                 //Déplacement du CV uploadé dans le dossier public/uploads
                 $cv = $formCanditate->get('cv')->getData();
+                dd($cv);
                 $newCvName = md5(uniqid()) . '.pdf';
                 $cv->move($this->getParameter('files_directory'), $newCvName); //file_directory paramétré dans le fichier config/services.yaml
                 $user->setCv($newCvName);
@@ -56,7 +57,8 @@ class RegisterController extends AbstractController
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
                 
-                $success = "Votre inscription s'est correctement déroulée. Lorsque votre compte sera actif, vous recevrez un mail à l'adresse suivante : {$user->getEmail()}.";
+                $success = "Votre inscription s'est correctement déroulée. Lorsque votre compte sera actif, 
+                vous recevrez un mail à l'adresse suivante : {$user->getEmail()}.";
                 
                 //Envoie d'un mail au candidat nouvellement inscrit pour prise en compte de son inscription
                 $mail = new Mail();

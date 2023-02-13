@@ -38,9 +38,6 @@ class JobOffer
     #[ORM\Column]
     private ?bool $is_approved = false;
 
-/*     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'jobOffersAppliedFor')]
-    private Collection $candidates; */
-
     #[ORM\OneToMany(mappedBy: 'job_offer', targetEntity: Candidature::class)]
     private Collection $candidatures;
 
